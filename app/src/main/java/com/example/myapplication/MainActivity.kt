@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(),SensorEventListener{
             if(newLeftMargin in 0..835)
                 params.leftMargin =  newLeftMargin
 
-            if(newTopMargin in 0..1800)
+            if(newTopMargin in 0..1500)
                 params.topMargin = newTopMargin
 
             text.text = "${p0.values[0]}  + ${p0.values[1]} + ${p0.values[2]}"
