@@ -1,12 +1,14 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.graphics.Paint
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
+import android.view.SurfaceHolder
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -19,9 +21,12 @@ class MainActivity : AppCompatActivity(),SensorEventListener{
     private lateinit var text:TextView
     private lateinit var sensorManager:SensorManager
     private lateinit var mySensor:Sensor
-    private var initialX = 0
-    private var initialY = 0
-    private var initialZ = 0
+
+    private lateinit var surfaceHolder: SurfaceHolder
+    private var circleX: Float = 100f
+    private var circleY: Float = 100f
+    private val circleRadius = 50f
+    private val paint: Paint = Paint()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
