@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Paint
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -21,13 +22,6 @@ class MainActivity : AppCompatActivity(),SensorEventListener{
     private lateinit var text:TextView
     private lateinit var sensorManager:SensorManager
     private lateinit var mySensor:Sensor
-
-    private lateinit var surfaceHolder: SurfaceHolder
-    private var circleX: Float = 100f
-    private var circleY: Float = 100f
-    private val circleRadius = 50f
-    private val paint: Paint = Paint()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,7 +40,9 @@ class MainActivity : AppCompatActivity(),SensorEventListener{
         }
 
         btn.setOnClickListener {
-            text.text = "l：${btn.left}t：${btn.top} r：${btn.right} b：${btn.bottom}"
+            Intent(this,MainActivity2::class.java).apply {
+                startActivity(this)
+            }
         }
     }
 
