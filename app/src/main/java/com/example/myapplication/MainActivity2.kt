@@ -10,10 +10,12 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.TextView
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private lateinit var sensorManager: SensorManager
@@ -25,12 +27,16 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private var circleY: Float = 500f
     private var circleRadius = 50f
     private val paint: Paint = Paint()
-    private var bigCircleX: Float = 500f
-    private var bigCircleY: Float = 500f
+    private var bigCircleX: Float = 800f
+    private var bigCircleY: Float = 1000f
     private val bigCircleRadius = 100f
 
     private lateinit var showScore:TextView
     private lateinit var showTime:TextView
+    private var score = 0
+    private val initialTimeMillis: Long = 30000
+    private lateinit var countDownTimer: CountDownTimer
+    private var gameRunning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +50,23 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
 
         showScore = findViewById(R.id.score123)
         showTime = findViewById(R.id.time123)
+
+        showScore.text = "分數：0"
+
+
+        countDownTimer = object : CountDownTimer(initialTimeMillis,1000){
+            override fun onTick(p0: Long) {
+                val secondsRemaining = p0 / 1000
+                showTime.text = "剩餘時間：${secondsRemaining}"
+            }
+
+            override fun onFinish() {
+            showTime.text = "時間到~"
+                gameRunning = false
+            }
+        }
+
+        startCountdown()
     }
 
     private fun drawCircle(canvas: Canvas) {
@@ -62,7 +85,9 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     override fun onDestroy() {
         super.onDestroy()
         sensorManager.unregisterListener(this)
+//        stopCountdown()
     }
+
 
     override fun onSensorChanged(p0: SensorEvent?) {
         var width = surfaceView.width
@@ -93,6 +118,11 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
                 bigCircleX = (Math.random() * (width - 2 * bigCircleRadius) + bigCircleRadius).toFloat()
                 bigCircleY = (Math.random() * (height - 2 * bigCircleRadius) + bigCircleRadius).toFloat()
 
+                if(gameRunning){
+                    score++
+                    showScore.text = "分數：$score"
+                }
+
                 // 確保新位置不會超出螢幕邊界
                 if (bigCircleX < bigCircleRadius) {
                     bigCircleX = bigCircleRadius
@@ -118,16 +148,23 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         }
     }
 
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+        //TODO("Not yet implemented")
+    }
     private fun isCollision(x1: Float, y1: Float, r1: Float, x2: Float, y2: Float, r2: Float): Boolean {
         // 計算兩圓心之間的距離
-        val distance = Math.sqrt((x2 - x1).toDouble().pow(2.0) + (y2 - y1).toDouble().pow(2.0))
+        val distance = sqrt((x2 - x1).toDouble().pow(2.0) + (y2 - y1).toDouble().pow(2.0))
 
         // 判斷是否碰撞
         return distance < r1 + r2
     }
 
-    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-//        TODO("Not yet implemented")
+    private fun startCountdown(){
+        countDownTimer.start()
+    }
+
+    private fun stopCountdown(){
+        countDownTimer.cancel()
     }
 
 }
