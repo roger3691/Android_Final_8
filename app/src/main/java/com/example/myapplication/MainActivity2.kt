@@ -10,10 +10,9 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.ViewGroup
+import android.widget.TextView
 import kotlin.math.pow
 
 class MainActivity2 : AppCompatActivity(),SensorEventListener {
@@ -30,6 +29,9 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private var bigCircleY: Float = 500f
     private val bigCircleRadius = 100f
 
+    private lateinit var showScore:TextView
+    private lateinit var showTime:TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
@@ -39,6 +41,9 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
 
         surfaceView = findViewById(R.id.surfaceView)
         surfaceHolder = surfaceView.holder
+
+        showScore = findViewById(R.id.score123)
+        showTime = findViewById(R.id.time123)
     }
 
     private fun drawCircle(canvas: Canvas) {
