@@ -11,6 +11,7 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
@@ -21,6 +22,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import kotlinx.coroutines.delay
 
 class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private lateinit var sensorManager: SensorManager
@@ -40,7 +42,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private lateinit var showScore:TextView
     private lateinit var showTime:TextView
     private var score = 0
-    private val initialTimeMillis: Long = 30000
+    private val initialTimeMillis: Long = 30500
     private lateinit var countDownTimer: CountDownTimer
     private var gameRunning = true
     //測試程式階段
@@ -80,7 +82,8 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
             }
 
             override fun onFinish() {
-            showTime.text = "時間到~"
+
+                showTime.text = "時間到~"
                 gameRunning = false
                 lineChart.setBackgroundColor(Color.GRAY)
                 lineChart.visibility = View.VISIBLE
@@ -98,6 +101,10 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         paint.color = Color.BLUE
         canvas.drawCircle(circleX, circleY, circleRadius, paint)
     }
+
+
+
+
 
     override fun onResume() {
         super.onResume()
@@ -210,7 +217,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         // 模擬分數和時間的變化
         val timer = object : CountDownTimer(initialTimeMillis, 1000) {
             override fun onTick(p0: Long) {
-                val secondsRemaining = (initialTimeMillis - p0) / 1000f
+                val secondsRemaining = (initialTimeMillis - p0) / 100f
                 // 每秒更新一次時間
                 updateChartData(secondsRemaining, score.toFloat())
             }
