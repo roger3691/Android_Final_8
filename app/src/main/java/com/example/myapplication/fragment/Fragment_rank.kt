@@ -41,13 +41,18 @@ class Fragment_rank : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val switchchart=view.findViewById<Button>(R.id.chart)
+       /* val switchchart=view.findViewById<Button>(R.id.chart)
         switchchart.setOnClickListener{
-            parentFragmentManager.popBackStack()
+          parentFragmentManager.popBackStack()*/
 
+            val switchchart=view.findViewById<Button>(R.id.chart)
+            switchchart.setOnClickListener{
+                parentFragmentManager.beginTransaction().apply {
+                    add(R.id.fragmentContainerView, Fragment_chart())
 
-
-        }
+                    commit()
+                }
+                }
     }
     companion object {
         /**
