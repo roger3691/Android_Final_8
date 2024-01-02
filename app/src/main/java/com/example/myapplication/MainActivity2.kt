@@ -13,9 +13,14 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.View
 import android.widget.TextView
 import kotlin.math.pow
 import kotlin.math.sqrt
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 
 class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private lateinit var sensorManager: SensorManager
@@ -31,16 +36,30 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private var bigCircleY: Float = 1000f
     private val bigCircleRadius = 100f
 
+
     private lateinit var showScore:TextView
     private lateinit var showTime:TextView
     private var score = 0
     private val initialTimeMillis: Long = 30000
     private lateinit var countDownTimer: CountDownTimer
     private var gameRunning = true
+    //測試程式階段
+    private lateinit var lineChart: LineChart
+    private val timeData: MutableList<Entry> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
+
+        lineChart = findViewById(R.id.lineChart)
+
+        // 初始化折線圖
+        setupLineChart()
+
+        // 模擬分數和時間的變化
+        simulateData()
+
+
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)!!
@@ -63,6 +82,8 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
             override fun onFinish() {
             showTime.text = "時間到~"
                 gameRunning = false
+                lineChart.visibility = View.VISIBLE
+
             }
         }
 
@@ -93,6 +114,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         var width = surfaceView.width
         var height = surfaceView.height
         val canvas = surfaceHolder.lockCanvas()
+
 
         if (p0!!.sensor.type == Sensor.TYPE_ACCELEROMETER) {
             // 更新圓點位置
@@ -146,6 +168,10 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
 
             surfaceHolder.unlockCanvasAndPost(canvas)
         }
+
+
+
+
     }
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
@@ -166,6 +192,48 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private fun stopCountdown(){
         countDownTimer.cancel()
     }
+    private fun setupLineChart() {
+        lineChart.apply {
+            description.isEnabled = false
+            setTouchEnabled(false)
+            isDragEnabled = false
+            setScaleEnabled(false)
+            setDrawGridBackground(false)
+            axisLeft.setDrawGridLines(false)
+            axisRight.setDrawGridLines(false)
+            xAxis.setDrawGridLines(false)
+        }
+    }
 
+    private fun simulateData() {
+        // 模擬分數和時間的變化
+        val timer = object : CountDownTimer(initialTimeMillis, 1000) {
+            override fun onTick(p0: Long) {
+                val secondsRemaining = (initialTimeMillis - p0) / 1000f
+                // 每秒更新一次時間
+                updateChartData(secondsRemaining, score.toFloat())
+            }
+
+            override fun onFinish() {
+                // 計時結束
+            }
+        }
+
+        timer.start()
+    }
+
+    private fun updateChartData(time: Float, score: Float) {
+        // 更新時間和分數的折線圖資料
+        timeData.add(Entry(time, score))
+        val dataSet = LineDataSet(timeData, "Time vs Score")
+        dataSet.color = Color.RED
+        dataSet.valueTextColor = Color.WHITE
+
+        val lineData = LineData(dataSet)
+        lineChart.data = lineData
+
+        // 更新圖表
+        lineChart.invalidate()
+    }
 
 }
