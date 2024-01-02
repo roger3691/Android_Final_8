@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import com.example.myapplication.fragment.Fragment_chart
 
 
 class MainActivity : AppCompatActivity(),SensorEventListener{
@@ -19,9 +21,12 @@ class MainActivity : AppCompatActivity(),SensorEventListener{
     private lateinit var text:TextView
     private lateinit var sensorManager:SensorManager
     private lateinit var mySensor:Sensor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
 
         btn = findViewById(R.id.btn1)
         btnStart = findViewById(R.id.btn2)

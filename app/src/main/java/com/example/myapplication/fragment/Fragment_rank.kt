@@ -1,10 +1,12 @@
-package com.example.myapplication
+package com.example.myapplication.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import com.example.myapplication.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,7 +15,7 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Fragment_rank.newInstance] factory method to
+ * Use the [BlankFragment.newInstance] factory method tob
  * create an instance of this fragment.
  */
 class Fragment_rank : Fragment() {
@@ -37,6 +39,16 @@ class Fragment_rank : Fragment() {
         return inflater.inflate(R.layout.fragment_rank, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val switchchart=view.findViewById<Button>(R.id.chart)
+        switchchart.setOnClickListener{
+            parentFragmentManager.popBackStack()
+
+
+
+        }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -44,7 +56,7 @@ class Fragment_rank : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment Fragment_rank.
+         * @return A new instance of fragment BlankFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
