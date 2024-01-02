@@ -82,12 +82,15 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
             }
 
             override fun onFinish() {
-
-                showTime.text = "時間到~"
                 gameRunning = false
-                lineChart.setBackgroundColor(Color.GRAY)
-                lineChart.visibility = View.VISIBLE
+                showTime.text = "時間到~"
 
+
+                Handler().postDelayed({
+                    lineChart.setBackgroundColor(Color.GRAY)
+                    lineChart.visibility = View.VISIBLE
+                    // 在這裡放置你想要延遲執行的程式碼
+                }, 1000)
             }
         }
 
@@ -149,7 +152,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
                 bigCircleY = (Math.random() * (height - 2 * bigCircleRadius) + bigCircleRadius).toFloat()
 
                 if(gameRunning){
-                    score++
+                    ++score
                     showScore.text = "分數：$score"
                 }
 
@@ -213,6 +216,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         }
     }
 
+
     private fun simulateData() {
         // 模擬分數和時間的變化
         val timer = object : CountDownTimer(initialTimeMillis, 1000) {
@@ -220,7 +224,10 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
                 val secondsElapsed = (initialTimeMillis - p0) / 1000f // 獲取已經過的秒數
                 // 每秒更新一次時間
                 updateChartData(secondsElapsed, score.toFloat())
+                // 每秒更新一次分數
+
             }
+
 
             override fun onFinish() {
                 // 計時結束
