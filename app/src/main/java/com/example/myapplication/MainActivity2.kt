@@ -217,9 +217,9 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         // 模擬分數和時間的變化
         val timer = object : CountDownTimer(initialTimeMillis, 1000) {
             override fun onTick(p0: Long) {
-                val secondsRemaining = (initialTimeMillis - p0) / 100f
+                val secondsElapsed = (initialTimeMillis - p0) / 1000f // 獲取已經過的秒數
                 // 每秒更新一次時間
-                updateChartData(secondsRemaining, score.toFloat())
+                updateChartData(secondsElapsed, score.toFloat())
             }
 
             override fun onFinish() {
