@@ -82,6 +82,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
             override fun onFinish() {
             showTime.text = "時間到~"
                 gameRunning = false
+                lineChart.setBackgroundColor(Color.GRAY)
                 lineChart.visibility = View.VISIBLE
 
             }
