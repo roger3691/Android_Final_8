@@ -14,7 +14,9 @@ import android.os.CountDownTimer
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.myapplication.fragment.Fragment_chart
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -62,13 +64,22 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
             }
 
             override fun onFinish() {
-             val fragmentTransaction=  supportFragmentManager.beginTransaction()
-                fragmentTransaction.remove()
+             val fragmentTransaction=supportFragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.fragmentContainerView, Fragment())
                 fragmentTransaction.commit()
 
             showTime.text = "時間到~"
                 gameRunning = false
             }
+             private fun showFragment(){
+       val fragmentManager=supportFragmentManager
+       val fragmentTransaction=fragmentManager.beginTransaction()
+                 val yourFragment=Fragment_chart
+       fragmentTransaction.replace(R.id.fragmentContainerView,yourFragment)
+
+       fragmentTransaction.commit()
+
+   }
 
         }
         startCountdown()
@@ -171,6 +182,10 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private fun stopCountdown(){
         countDownTimer.cancel()
     }
+
+}
+
+private fun FragmentTransaction.replace(fragmentContainerView: Int, yourFragment: Fragment_chart.Companion) {
 
 }
 
