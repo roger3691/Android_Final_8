@@ -42,7 +42,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private lateinit var showScore:TextView
     private lateinit var showTime:TextView
     private var score = 0
-    private val initialTimeMillis: Long = 30000
+    private val initialTimeMillis: Long = 3000
     private lateinit var countDownTimer: CountDownTimer
     private var gameRunning = true
     //測試程式階段
@@ -230,7 +230,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
             override fun onTick(p0: Long) {
                 val secondsElapsed = (initialTimeMillis - p0) / 1000f // 獲取已經過的秒數
                 // 每秒更新一次時間
-                updateChartData(secondsElapsed, score.toFloat())
+                updateChartData(secondsElapsed, score)
                 // 每秒更新一次分數
 
             }
@@ -244,15 +244,18 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         timer.start()
     }
 
-    private fun updateChartData(time: Float, score: Float) {
+    private fun updateChartData(time: Float, score: Int) {
         // 更新時間和分數的折線圖資料
-        timeData.add(Entry(time, score))
+        timeData.add(Entry(time, score.toFloat()))
         val dataSet = LineDataSet(timeData, "Time vs Score")
         dataSet.color = Color.RED
         dataSet.valueTextColor = Color.WHITE
 
         val lineData = LineData(dataSet)
         lineChart.data = lineData
+
+        // 設置 Y 軸的最小值為 0
+        lineChart.axisLeft.axisMinimum = 0f
 
         // 更新圖表
         lineChart.invalidate()
