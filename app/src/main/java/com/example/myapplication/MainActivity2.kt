@@ -74,7 +74,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         showScore = findViewById(R.id.score123)
         showTime = findViewById(R.id.time123)
 
-        showScore.text = "分數：$score 最高分：$topScore"
+        showScore.text = "分數：$score \n最高分：$topScore"
 
         showTime.isEnabled = false
         showTime.setOnClickListener {
@@ -159,7 +159,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
                     if(score>topScore){
                         topScore=score
                     }
-                    showScore.text = "分數：$score 最高分：$topScore"
+                    showScore.text = "分數：$score \n最高分：$topScore"
                 }
 
                 // 確保新位置不會超出螢幕邊界
@@ -266,11 +266,13 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         bigCircleX = 800f
         bigCircleY = 1000f
         score = 0
-        showScore.text = "分數：$score 最高分：$topScore"
+        showScore.text = "分數：$score \n最高分：$topScore"
+        timeData.clear()
         lineChart.visibility = View.GONE
         showTime.isEnabled = false
         gameRunning = true
         setupLineChart()
+        simulateData()
         startCountdown()
     }
 }
