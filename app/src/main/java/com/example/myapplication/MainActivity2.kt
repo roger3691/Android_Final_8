@@ -42,7 +42,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private lateinit var showScore:TextView
     private lateinit var showTime:TextView
     private var score = 0
-    private val initialTimeMillis: Long = 3000
+    private val initialTimeMillis: Long = 30000
     private lateinit var countDownTimer: CountDownTimer
     private var gameRunning = true
     //測試程式階段
@@ -87,15 +87,9 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
             }
 
             override fun onFinish() {
+                lineChart.setBackgroundColor(Color.GRAY)
+                lineChart.visibility = View.VISIBLE
                 gameRunning = false
-                showTime.text = "時間到~"
-
-
-                Handler().postDelayed({
-                    lineChart.setBackgroundColor(Color.GRAY)
-                    lineChart.visibility = View.VISIBLE
-                    // 在這裡放置你想要延遲執行的程式碼
-                }, 1000)
                 showTime.isEnabled = true
                 showTime.text = "再來一次?"
             }
