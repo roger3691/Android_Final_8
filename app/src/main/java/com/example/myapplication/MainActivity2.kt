@@ -49,6 +49,8 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
     private lateinit var lineChart: LineChart
     private val timeData: MutableList<Entry> = mutableListOf()
 
+    private var topScore =0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
@@ -155,6 +157,9 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
                 if(gameRunning){
                     score++
                     showScore.text = "分數：$score"
+                    if(score>topScore){
+                        topScore=score
+                    }
                 }
 
                 // 確保新位置不會超出螢幕邊界
@@ -208,7 +213,7 @@ class MainActivity2 : AppCompatActivity(),SensorEventListener {
         lineChart.apply {
             description.isEnabled = false
             setTouchEnabled(false)
-            isDragEnabled = false
+            isDragEnabled = false)
             setScaleEnabled(false)
             setDrawGridBackground(false)
             axisLeft.setDrawGridLines(false)
